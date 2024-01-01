@@ -55,7 +55,9 @@ public class TeleopDrive extends LinearOpMode
     private DcMotor rightBackDrive   = null;  //  Used to control the right back drive wheel
     private DcMotorEx armMotor = null; //Used to control the arm's up and down movement
     private DcMotorEx windMotor = null; //Used to control the arm's in and out movement
-    private Servo clawUD = null; //Used to control the servo's up and down position
+    private Servo clawLeft;
+    private Servo clawRight;
+    private Servo clawUD;
 
     @Override
     public void runOpMode()
@@ -78,8 +80,12 @@ public class TeleopDrive extends LinearOpMode
         rightBackDrive = hardwareMap.get(DcMotor.class, "backRight");
         armMotor = hardwareMap.get(DcMotorEx.class, "arm");
         windMotor = hardwareMap.get(DcMotorEx.class, "wind");
-        clawUD = hardwareMap.get(Servo.class, "clawUD");
         frontCam = hardwareMap.get(HuskyLens.class, "frontCam");
+        clawRight = hardwareMap.get(Servo.class, "clawRight");
+        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        clawUD = hardwareMap.get(Servo.class, "clawUD");
+
+
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -88,6 +94,8 @@ public class TeleopDrive extends LinearOpMode
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        clawLeft.setDirection(Servo.Direction.REVERSE);
 
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -157,6 +165,25 @@ public class TeleopDrive extends LinearOpMode
             }
             if (gamepad1.b) {
                 windTarget = 0;
+            }
+
+            if (gamepad1.a) {
+                clawRight.setPosition(0.85);
+            } else {
+                clawRight.setPosition(0.65);
+            }
+            if (gamepad1.b) {
+                clawLeft.setPosition(0.85);
+
+            } else {
+                clawLeft.setPosition(0.65);
+            }
+            if (gamepad1.y) {
+                clawUD.setPosition(0.98);
+                //starting pos = 1
+
+            } else {
+                clawUD.setPosition(0.6);
             }
 
 
