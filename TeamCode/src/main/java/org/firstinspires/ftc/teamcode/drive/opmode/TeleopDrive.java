@@ -143,16 +143,16 @@ public class TeleopDrive extends LinearOpMode
             armMotor.setPower(armPower);
             if (gamepad1.dpad_up) {
                 armDeployTarget = -3000;
+
             }
             if (gamepad1.dpad_down) {
-                armDeployTarget = -500;
+                armDeployTarget = 0;
             }
             /**
             telemetry.addData("pos: ", armPos);
             telemetry.addData("target: ", armDeployTarget);
             telemetry.update();
              **/
-
             windController.setPID(wp, wi, wd);
             int windPos  = windMotor.getCurrentPosition();
             double windPID = windController.calculate(windPos, windTarget);
@@ -160,11 +160,12 @@ public class TeleopDrive extends LinearOpMode
             double windPower = windPID * windFF;
             windMotor.setPower(windPower);
 
-            if (gamepad1.a) {
-                windTarget = 2600;
+            if (gamepad1.x) {
+                windTarget = -500;
             }
-            if (gamepad1.b) {
+            if (gamepad1.y) {
                 windTarget = 0;
+
             }
 
             if (gamepad1.a) {
@@ -178,16 +179,15 @@ public class TeleopDrive extends LinearOpMode
             } else {
                 clawLeft.setPosition(0.65);
             }
-            if (gamepad1.y) {
-                clawUD.setPosition(0.98);
-                //starting pos = 1
+            if (gamepad1.left_bumper) {
+                clawUD.setPosition(0.47);
 
             } else {
-                clawUD.setPosition(0.6);
+                clawUD.setPosition(0.98);
             }
 
 
-            telemetry.addData("pos: ", windPos);
+            telemetry.addData("pos: ", windMotor.getCurrentPosition());
             telemetry.addData("target: ", windTarget);
             telemetry.update();
 
